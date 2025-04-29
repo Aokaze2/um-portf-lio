@@ -1,0 +1,630 @@
+
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Aokaze Editor - Portfólio</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet"/>
+<style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #0d0d0d;
+      color: #ffffff;
+      overflow-x: hidden;
+      position: relative;
+      min-height: 100vh;
+    }
+    header {
+      padding: 20px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: 700;
+      color: #00f0ff;
+      z-index: 2;
+      position: relative;
+    }
+    .background {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      z-index: 0;
+    }
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      animation: blink 2s infinite alternate;
+      opacity: 0.8;
+      border-radius: 50%;
+    }
+    .moon-image {
+      position: absolute;
+      top: 40px;
+      right: 40px;
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      overflow: hidden;
+      box-shadow: 0 0 15px 5px rgba(255,255,255,0.2);
+    }
+    .moon-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    main {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 50px 20px;
+      text-align: center;
+      z-index: 2;
+      position: relative;
+    }
+    .profile-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 30px;
+    }
+    .profile-container {
+      position: relative;
+      width: 250px;
+      height: 250px;
+    }
+    .profile-container::before {
+      content: '';
+      position: absolute;
+      top: -10px;
+      left: -10px;
+      width: 270px;
+      height: 270px;
+      background: linear-gradient(45deg, #00f0ff, #0077ff);
+      border-radius: 50%;
+      animation: rotate 6s linear infinite;
+      z-index: 0;
+      filter: blur(8px);
+    }
+    .profile-photo {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      position: relative;
+      z-index: 1;
+      border: 4px solid #0d0d0d;
+    }
+    .astronaut {
+      width: 60px;
+      height: 60px;
+      background: url('astronauta.png') no-repeat center/contain;
+      animation: floatAstronaut 8s ease-in-out infinite alternate;
+      margin-left: 20px;
+    }
+    @keyframes rotate {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    @keyframes floatAstronaut {
+      0% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-15px) rotate(15deg); }
+      100% { transform: translateY(0) rotate(-15deg); }
+    }
+    @keyframes blink {
+      from { opacity: 0.3; }
+      to { opacity: 1; }
+    }
+    h1 {
+      font-size: 38px;
+      margin-bottom: 10px;
+    }
+    h1 span {
+      color: #00f0ff;
+    }
+    h2 {
+      font-size: 24px;
+      color: #00f0ff;
+      margin-bottom: 20px;
+    }
+    p {
+      max-width: 600px;
+      margin: 0 auto 30px;
+      font-size: 16px;
+      color: #cccccc;
+    }
+    .buttons {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 20px;
+    }
+    .buttons a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border: 2px solid #00f0ff;
+      color: #00f0ff;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: 600;
+      transition: all 0.3s;
+      font-size: 16px;
+    }
+    .buttons a:hover {
+      background-color: #00f0ff;
+      color: #0d0d0d;
+    }
+    .buttons img {
+      width: 24px;
+      height: 24px;
+    }
+    section.videos {
+      padding: 50px 20px;
+      text-align: center;
+      position: relative;
+      z-index: 2;
+    }
+    section.videos iframe {
+      border-radius: 15px;
+      box-shadow: 0px 0px 20px #00f0ff;
+    }
+    footer {
+      padding: 20px;
+      text-align: center;
+      font-size: 14px;
+      color: #555;
+      background: #0d0d0d;
+      margin-top: 50px;
+      z-index: 2;
+      position: relative;
+    }
+  
+.buttons a:hover, .video-item:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+.video-container {
+  display: flex;
+  justify-content: center;
+  gap: 60px; /* aumentei o espaço entre os vídeos */
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.video-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 350px;
+  transition: transform 0.3s ease;
+}
+</style>
+<style>
+  .popup-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    display: none;
+  }
+  .popup-image {
+    max-width: 90vw;
+    max-height: 90vh;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 240, 255, 0.6);
+    position: relative;
+  }
+  .popup-close {
+    position: absolute;
+    top: -20px;
+    right: -20px;
+    background: #00f0ff;
+    color: #0d0d0d;
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+</style>
+<style>
+  .popup-arrow {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 40px;
+    color: #00f0ff;
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    z-index: 1001;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .popup-arrow.left {
+    left: 10px;
+  }
+  .popup-arrow.right {
+    right: 10px;
+  }
+  .popup-image.fade-out {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .popup-image.fade-in {
+    opacity: 1;
+    transition: opacity 0.3s ease;
+  }
+</style>
+
+<style>
+  .music-wave {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    margin-top: 4px;
+    height: 10px;
+  }
+  .music-wave div {
+    width: 2px;
+    height: 6px;
+    background: #00f0ff;
+    margin: 0 1px;
+    animation: waveAnim 1s infinite ease-in-out;
+  }
+  .music-wave div:nth-child(1) {
+    animation-delay: 0s;
+  }
+  .music-wave div:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+  .music-wave div:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+  .music-wave div:nth-child(4) {
+    animation-delay: 0.6s;
+  }
+  .music-wave div:nth-child(5) {
+    animation-delay: 0.8s;
+  }
+
+  @keyframes waveAnim {
+    0%, 100% {
+      height: 6px;
+    }
+    50% {
+      height: 12px;
+    }
+  }
+</style>
+
+<style>
+  .music-player {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1002;
+    background: rgba(0, 240, 255, 0.12);
+    backdrop-filter: blur(8px);
+    border: 1px solid #00f0ff;
+    border-radius: 15px;
+    padding: 4px 8px;
+    color: #00f0ff;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 0 10px #00f0ff;
+    animation: pulseGlow 2s infinite ease-in-out;
+  }
+
+  .music-player:hover {
+    background: #00f0ff;
+    color: #0d0d0d;
+  }
+
+  @keyframes pulseGlow {
+    0% {
+      box-shadow: 0 0 5px #00f0ff;
+    }
+    50% {
+      box-shadow: 0 0 15px #00f0ff;
+    }
+    100% {
+      box-shadow: 0 0 5px #00f0ff;
+    }
+  }
+</style>
+</head>
+<body>
+<div class="background">
+<div class="moon-image">
+<img alt="Lua" src="lua.png"/>
+</div>
+</div>
+<header>
+  Aokaze <span>Editor</span>
+</header>
+<main>
+<div class="profile-wrapper" data-aos="zoom-in">
+<div class="profile-container">
+<img alt="Foto de perfil" class="profile-photo" src="meuperfil.jpg"/>
+</div>
+</div>
+<div class="astronaut"></div>
+<div data-aos="fade-left">
+<h1>Olá, eu sou <span>Aokaze</span></h1>
+<h2>Editor de Vídeo</h2>
+<p>Desde 2020, edito vídeos por hobby e paixão pelo audiovisual. Sempre admirei como os filmes de Hollywood são feitos. Em 2025 decidi seguir meu sonho profissionalmente, buscando trazer alegria e emoção através da edição.</p>
+<div class="buttons">
+<a href="https://www.instagram.com/aokaze_editor?igsh=MXJodW5vbTB5YW8xNA==" target="_blank"><img alt="Instagram" src="instagram.png"/> Instagram</a>
+<a href="https://www.youtube.com/@Aokazeeditor" target="_blank"><img alt="YouTube" src="youtube.png"/> YouTube</a>
+<a href="https://www.linkedin.com/in/aokaze-editor-200085363" target="_blank"><img alt="LinkedIn" src="linkedin.png"/> LinkedIn</a>
+<a href="mailto:aokazeeditor@gmail.com" target="_blank"><img alt="Email" src="email.png"/> E-mail</a>
+<a href="https://wa.me/5573991067986" target="_blank"><img alt="WhatsApp" src="whatsapp.png"/> WhatsApp</a>
+</div>
+</div>
+</main>
+<section class="videos">
+<div class="video-container" data-aos="zoom-in">
+<div class="video-item">
+<h2>EDIÇÃO ESTILO DAVY JONES</h2>
+<iframe allowfullscreen="" frameborder="0" height="200" src="https://www.youtube.com/embed/YdsskHlgAR8" width="350"></iframe>
+<p style="max-width:350px; margin:10px auto; font-size:16px; color:#cccccc;">
+        Edição simples focada em decupagem e correção de cor, ideal para vlogs informativos que precisam de fluidez e clareza na comunicação.
+      </p>
+</div>
+<div class="video-item">
+<h2>EDIÇÃO ESTILO SLOW LIVING</h2>
+<iframe allowfullscreen="" frameborder="0" height="200" src="https://www.youtube.com/embed/2gquN0J8NMQ" width="350"></iframe>
+<p style="max-width:350px; margin:10px auto; font-size:16px; color:#cccccc;">
+        Edição focada em narrativa visual, utilizando técnicas de decupagem, correção de cor cinematográfica e integração de trilha sonora. Ideal para conteúdos slow living que exigem um ritmo suave e estético, transmitindo emoção e autenticidade.
+      </p>
+</div>
+</div>
+</section>
+<style>
+.video-container {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.video-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 350px;
+}
+
+.buttons a:hover, .video-item:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+.video-container {
+  display: flex;
+  justify-content: center;
+  gap: 60px; /* aumentei o espaço entre os vídeos */
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.video-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 350px;
+  transition: transform 0.3s ease;
+}
+</style>
+<style>
+.video-container {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.descricao-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.buttons a:hover, .video-item:hover {
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
+.video-container {
+  display: flex;
+  justify-content: center;
+  gap: 60px; /* aumentei o espaço entre os vídeos */
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+.video-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 350px;
+  transition: transform 0.3s ease;
+}
+</style>
+<section class="gallery" data-aos="fade-up">
+<h2>EDIÇÕES DE FOTOS</h2>
+<p style="max-width:600px; margin:10px auto 30px; font-size:16px; color:#cccccc; text-align:center;">
+    Edição profissional feita no Adobe Lightroom, trazendo à tona o melhor de cada imagem.
+    Ter uma foto bem editada é essencial para transmitir a verdadeira emoção, realçar detalhes importantes
+    e dar um acabamento profissional que se destaca aos olhos do público.
+  </p>
+<div class="gallery-container">
+<div class="gallery-item"><img alt="Foto editada 1" src="foto 1.jpg"/></div>
+<div class="gallery-item"><img alt="Foto editada 2" src="foto 2.jpg"/></div>
+<div class="gallery-item"><img alt="Foto editada 3" src="foto 3.jpg"/></div>
+<div class="gallery-item"><img alt="Foto editada 4" src="foto 4.jpg"/></div>
+<div class="gallery-item"><img alt="Foto editada 5" src="foto 5.jpg"/></div>
+<div class="gallery-item"><img alt="Foto editada 6" src="foto 6.jpg"/></div>
+<div class="gallery-item"><img alt="Foto editada 7" src="foto 7.jpg"/></div>
+<div class="gallery-item"><img alt="Foto editada 8" src="foto 8.jpg"/></div>
+<div class="gallery-item"><img alt="Foto editada 9" src="foto 9.jpg"/></div>
+<div class="gallery-item"><img alt="Foto editada 10" src="foto 10.jpg"/></div>
+</div>
+</section>
+<style>
+.gallery {
+  padding: 50px 20px;
+  text-align: center;
+  position: relative;
+  z-index: 2;
+}
+.gallery-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+  margin-top: 30px;
+}
+.gallery-item {
+  overflow: hidden;
+  border-radius: 15px;
+  transition: transform 0.3s ease;
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.2);
+}
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.gallery-item:hover img {
+  transform: scale(1.05);
+}
+</style>
+<footer>
+  Site criado com paixão por Aokaze 🚀 | © 2025 Aokaze Editor - Todos os direitos reservados.
+</footer>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script>
+  AOS.init({ duration: 1200 });
+
+  // Criar estrelas aleatórias
+  for (let i = 0; i < 50; i++) {
+    let star = document.createElement('div');
+    star.className = 'star';
+    star.style.top = Math.random() * 100 + '%';
+    star.style.left = Math.random() * 100 + '%';
+    star.style.animationDuration = (Math.random() * 2 + 1) + 's';
+    document.querySelector('.background').appendChild(star);
+  }
+</script>
+<div class="popup-overlay" id="popupOverlay">
+<img alt="Imagem ampliada" class="popup-image" id="popupImage" src=""/>
+<button class="popup-close" id="popupClose">×</button>
+<button class="popup-arrow left" id="popupPrev">❮</button>
+<button class="popup-arrow right" id="popupNext">❯</button>
+</div>
+<script>
+  const popupOverlay = document.getElementById('popupOverlay');
+  const popupImage = document.getElementById('popupImage');
+  const popupClose = document.getElementById('popupClose');
+
+  document.querySelectorAll('.gallery-item img').forEach(img => {
+    img.addEventListener('click', () => {
+      popupImage.src = img.src;
+      popupOverlay.style.display = 'flex';
+    });
+  });
+
+  popupOverlay.addEventListener('click', (e) => {
+    if (e.target === popupOverlay || e.target === popupClose) {
+      popupOverlay.style.display = 'none';
+      popupImage.src = '';
+    }
+  });
+</script>
+<script>
+  const images = Array.from(document.querySelectorAll('.gallery-item img'));
+  let currentIndex = 0;
+
+  document.querySelectorAll('.gallery-item img').forEach((img, index) => {
+    img.addEventListener('click', () => {
+      popupImage.src = img.src;
+      popupOverlay.style.display = 'flex';
+      currentIndex = index;
+    });
+  });
+
+  popupOverlay.addEventListener('click', (e) => {
+    if (e.target === popupOverlay || e.target === popupClose) {
+      popupOverlay.style.display = 'none';
+      popupImage.src = '';
+    }
+  });
+
+  document.getElementById('popupPrev').addEventListener('click', (e) => {
+    e.stopPropagation();
+    changeImage(-1);
+  });
+
+  document.getElementById('popupNext').addEventListener('click', (e) => {
+    e.stopPropagation();
+    changeImage(1);
+  });
+
+  function changeImage(direction) {
+    popupImage.classList.remove('fade-in');
+    popupImage.classList.add('fade-out');
+    setTimeout(() => {
+      currentIndex = (currentIndex + direction + images.length) % images.length;
+      popupImage.src = images[currentIndex].src;
+      popupImage.classList.remove('fade-out');
+      popupImage.classList.add('fade-in');
+    }, 300);
+  }
+</script>
+<audio id="backgroundMusic" loop="">
+<source src="lofi.mp3" type="audio/mpeg"/>
+  Seu navegador não suporta áudio HTML5.
+</audio>
+<button class="music-player" id="musicToggle">Play 🎵</button>
+
+<script>
+  const music = document.getElementById('backgroundMusic');
+  const musicToggle = document.getElementById('musicToggle');
+  let isPlaying = false;
+
+  music.volume = 0.3; // volume suave
+
+  musicToggle.addEventListener('click', () => {
+    if (!isPlaying) {
+      music.play();
+      musicToggle.textContent = 'Pause 🎵';
+    } else {
+      music.pause();
+      musicToggle.textContent = 'Play 🎵';
+    }
+    isPlaying = !isPlaying;
+  });
+</script>
+</body>
+</html>
